@@ -1,9 +1,11 @@
 package com.vima.auth.grpcService;
 
+import com.vima.auth.mapper.NotificationMapper;
 import com.vima.auth.mapper.UserMapper;
 import com.vima.auth.model.User;
 import com.vima.auth.service.UserService;
 import communication.*;
+import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
 
@@ -21,6 +23,29 @@ public class grpcUserDetailsService extends userDetailsServiceGrpc.userDetailsSe
         UserDetailsResponse response = UserMapper.convertUserToUserDetailsResponse(user);
 
         responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void findById(FindUserRequest request, StreamObserver<UserDetailsResponse> responseObserver) {
+
+        User user = userService.findById(Long.valueOf(request.getId()));
+        UserDetailsResponse response = UserMapper.convertUserToUserDetailsResponse(user);
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void findNotificationOptionsByUserId(UserId request, StreamObserver<NotificationOptionsResponse> responseObserver) {
+        User user = userService.findById(request.getId());
+        responseObserver.onNext(NotificationMapper.convertEntityToGrpc(user));
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void editNotificationOptions(EditNotificationRequest request, StreamObserver<NotificationOptionsResponse> responseObserver) {
+        User user = userService.editNotificationOptions(request);
+        responseObserver.onNext(NotificationMapper.convertEntityToGrpc(user));
         responseObserver.onCompleted();
     }
 

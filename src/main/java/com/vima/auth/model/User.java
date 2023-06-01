@@ -38,6 +38,9 @@ public class User {
     @Column(columnDefinition = "ENUM('GUEST','HOST')", name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "notificationOptions_id", referencedColumnName = "id")
+    NotificationOptions notificationOptions;
     //Ovde treba promeniti da je role tipa Role ali me zeza MySql vec satima i ne radi ne znam zasto
 
 }

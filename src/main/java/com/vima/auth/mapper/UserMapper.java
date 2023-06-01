@@ -1,25 +1,28 @@
 package com.vima.auth.mapper;
 
 import com.vima.auth.dto.EditUserHttpRequest;
+import com.vima.auth.model.NotificationOptions;
 import com.vima.auth.model.User;
 import communication.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
 public class UserMapper {
 
     public static UserDetailsResponse convertUserToUserDetailsResponse(final User user) {
-
         return UserDetailsResponse.newBuilder()
                 .setId(user.getId())
                 .setUsername(user.getUsername())
                 .setPassword(user.getPassword())
                 .setRole(convertToMessageRole(user.getRole()))
-                .setPenalties(user.getPenalties()).build();
+                .setPenalties(user.getPenalties())
+                .setNotificationOptions(NotificationMapper.convertEntityToGrpc(user))
+                .build();
     }
 
     private static com.vima.auth.model.enums.Role convertToEntityRole(Role role) {
@@ -31,6 +34,15 @@ public class UserMapper {
     }
 
     public static User covertRegisterRequestToEntity(final RegistrationRequest request) {
+        NotificationOptions notificationOptions = NotificationOptions.builder()
+            .accommodationRating(false)
+            .distinguishedHostStatus(false)
+            .hostsReservationAnswer(false)
+            .profileRating(false)
+            .reservationRequest(false)
+            .reservationCancellation(false)
+            .build();
+
         return User.builder()
                 .firstName(request.getFirstName())
                 .id(Math.abs(new Random().nextLong()))
@@ -41,6 +53,7 @@ public class UserMapper {
                 .phoneNumber(request.getPhoneNumber())
                 .password(request.getPassword())
                 .location("Location")
+                .notificationOptions(notificationOptions)
                 .build();
     }
 

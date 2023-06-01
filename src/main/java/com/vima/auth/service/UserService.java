@@ -1,14 +1,21 @@
 package com.vima.auth.service;
 
 import com.vima.auth.dto.EditUserHttpRequest;
+import com.vima.auth.mapper.NotificationMapper;
+import com.vima.auth.model.NotificationOptions;
 import com.vima.auth.model.User;
 import com.vima.auth.repository.UserRepository;
+
+import communication.EditNotificationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import javax.persistence.EntityNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -40,8 +47,18 @@ public class UserService {
         } */
     }
 
+    public User findById(Long id) {
+        return userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
+
     public User loadUserByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    public User editNotificationOptions(EditNotificationRequest request) {
+        User user = userRepository.findById(request.getId()).orElseThrow(EntityNotFoundException::new);
+        user.setNotificationOptions(NotificationMapper.convertEditRequestToEntity(user, request));
+        return userRepository.save(user);
     }
 
     public User edit(EditUserHttpRequest request){
