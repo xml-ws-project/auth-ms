@@ -1,0 +1,22 @@
+syntax = "proto3";
+package com.vima.gateway;
+
+import "google/protobuf/timestamp.proto";
+
+message RatingRequest{
+    int32 value = 1;
+    uint64 hostId = 2;
+    uint64 guestId = 3;
+}
+
+message RatingResponse{
+    uint64 id = 1;
+    int32 value = 2;
+    uint64 hostId = 3;
+    uint64 guestId = 4;
+    google.protobuf.Timestamp date = 5;
+}
+
+service RatingService{
+    rpc create(RatingRequest) returns (RatingResponse);
+}
