@@ -28,4 +28,11 @@ public class RatingGrpcService extends RatingServiceGrpc.RatingServiceImplBase {
         responseObserver.onNext(TextMessage.newBuilder().setValue(result ? "Rating deleted." : "Error!").build());
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void edit(RatingServiceOuterClass.EditRatingRequest request, StreamObserver<TextMessage> responseObserver){
+        var result = ratingService.edit(request.getId(), request.getNewValue());
+        responseObserver.onNext(TextMessage.newBuilder().setValue(result ? "Rating edited." : "Error!").build());
+        responseObserver.onCompleted();
+    }
 }

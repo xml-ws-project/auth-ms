@@ -42,7 +42,7 @@ public class RatingService {
             return;
         }
 
-        calculateWhenNotZero(host, value);
+        calculateWhenNotZero(host.getId());
     }
 
     private void calculateWhenZero(User host, int value){
@@ -50,7 +50,8 @@ public class RatingService {
         userService.save(host);
     }
 
-    private void calculateWhenNotZero(User host, int value){
+    private void calculateWhenNotZero(Long hostId){
+        var host = userService.findById(hostId);
         var number = ratingRepository.findNumberOfHostRatings(host.getId());
         var sum = ratingRepository.findSumOfHostRatings(host.getId());
         host.setAvgRating((sum * 1.00)/(number));
@@ -59,11 +60,25 @@ public class RatingService {
     }
 
     public boolean delete(Long id){
-            var rating = ratingRepository.findById(id).get();
-            if(rating == null) return false;
-            ratingRepository.delete(rating);
-            calculateHostRating(rating.getValue(), rating.getHostId());
-            return true;
+        var rating = ratingRepository.findById(id).get();
+        if(rating == null) return false;
+        ratingRepository.delete(rating);
+        calculateWhenNotZero(rating.getHostId());
+        return true;
+    }
+
+    public boolean edit(Long id, int newValue){
+        var rating = ratingRepository.findById(id).get();
+        if(rating == null) return false;
+
+        return executeEdit(rating, newValue);
+    }
+
+    public boolean executeEdit(Rating rating, int newValue){
+        rating.setValue(newValue);
+        ratingRepository.save(rating);
+        calculateWhenNotZero(rating.getHostId());
+        return true;
     }
 
 }

@@ -18,6 +18,11 @@ message RatingResponse{
     google.protobuf.Timestamp date = 5;
 }
 
+message EditRatingRequest{
+     uint64 id = 1;
+     int32 newValue = 2;
+}
+
 message LONG{
     uint64 value = 1;
 }
@@ -25,4 +30,5 @@ message LONG{
 service RatingService{
     rpc create(RatingRequest) returns (RatingResponse);
     rpc delete(LONG) returns (TextMessage);
+    rpc edit(EditRatingRequest) returns (TextMessage);
 }
