@@ -42,7 +42,7 @@ public class RatingService {
             return;
         }
 
-        calculateWhenNotZero(host,value);
+        calculateWhenNotZero(host, value);
     }
 
     private void calculateWhenZero(User host, int value){
@@ -51,9 +51,19 @@ public class RatingService {
     }
 
     private void calculateWhenNotZero(User host, int value){
-        var numOfRatings = ratingRepository.findAllByHostId(host.getId());
-        host.setAvgRating(((host.getAvgRating()*(numOfRatings-1)) + value)/(numOfRatings));
+        var number = ratingRepository.findNumberOfHostRatings(host.getId());
+        var sum = ratingRepository.findSumOfHostRatings(host.getId());
+        host.setAvgRating((sum * 1.00)/(number));
+
         userService.save(host);
+    }
+
+    public boolean delete(Long id){
+            var rating = ratingRepository.findById(id).get();
+            if(rating == null) return false;
+            ratingRepository.delete(rating);
+            calculateHostRating(rating.getValue(), rating.getHostId());
+            return true;
     }
 
 }

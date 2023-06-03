@@ -2,6 +2,7 @@ syntax = "proto3";
 package com.vima.gateway;
 
 import "google/protobuf/timestamp.proto";
+import "Shared.proto";
 
 message RatingRequest{
     int32 value = 1;
@@ -17,6 +18,11 @@ message RatingResponse{
     google.protobuf.Timestamp date = 5;
 }
 
+message LONG{
+    uint64 value = 1;
+}
+
 service RatingService{
     rpc create(RatingRequest) returns (RatingResponse);
+    rpc delete(LONG) returns (TextMessage);
 }

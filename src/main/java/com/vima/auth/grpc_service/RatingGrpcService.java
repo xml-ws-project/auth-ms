@@ -4,6 +4,7 @@ import com.vima.auth.mapper.RatingMapper;
 import com.vima.auth.service.RatingService;
 import com.vima.gateway.RatingServiceGrpc;
 import com.vima.gateway.RatingServiceOuterClass;
+import com.vima.gateway.TextMessage;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
@@ -21,4 +22,10 @@ public class RatingGrpcService extends RatingServiceGrpc.RatingServiceImplBase {
         responseObserver.onCompleted();
     }
 
+    @Override
+    public void delete(RatingServiceOuterClass.LONG request, StreamObserver<TextMessage> responseObserver){
+        var result = ratingService.delete(request.getValue());
+        responseObserver.onNext(TextMessage.newBuilder().setValue(result ? "Rating deleted." : "Error!").build());
+        responseObserver.onCompleted();
+    }
 }
