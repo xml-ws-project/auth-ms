@@ -38,6 +38,8 @@ public class User {
     @Column(columnDefinition = "ENUM('GUEST','HOST')", name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
-    //Ovde treba promeniti da je role tipa Role ali me zeza MySql vec satima i ne radi ne znam zasto
-
+    @Column(columnDefinition = "double default 0")
+    private double avgRating = 0;
+    @Column(columnDefinition = "boolean default false")
+    private boolean distinguished = false;
 }

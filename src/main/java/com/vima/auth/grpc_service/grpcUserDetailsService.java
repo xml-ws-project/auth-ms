@@ -1,4 +1,4 @@
-package com.vima.auth.grpcService;
+package com.vima.auth.grpc_service;
 
 import com.vima.auth.mapper.UserMapper;
 import com.vima.auth.model.User;
