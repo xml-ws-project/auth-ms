@@ -35,6 +35,7 @@ public class UserMapper {
 
     public static User covertRegisterRequestToEntity(final RegistrationRequest request) {
         NotificationOptions notificationOptions = NotificationOptions.builder()
+            .id(Math.abs(new Random().nextLong()))
             .accommodationRating(false)
             .distinguishedHostStatus(false)
             .hostsReservationAnswer(false)

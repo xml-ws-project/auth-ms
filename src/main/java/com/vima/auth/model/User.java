@@ -17,7 +17,7 @@ import javax.persistence.*;
 @Table(name = "user" , schema = "public")
 public class User {
     @Id
-    @Column(name = "id", unique = true, nullable = false)
+    @Column(name = "id", unique = true, nullable = false, updatable = false)
     private Long id;
     @Column(name = "location", nullable = false)
     private String location;
