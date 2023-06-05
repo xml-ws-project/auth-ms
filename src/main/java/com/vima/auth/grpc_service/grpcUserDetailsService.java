@@ -40,7 +40,7 @@ public class grpcUserDetailsService extends userDetailsServiceGrpc.userDetailsSe
     }
 
     private void createUserNode(String userId){
-        getBlockingStub().getStub().createUserNode(Uuid.newBuilder().setValue(userId).build());
+        getBlockingStub().getStub().createUserNode(Uuid.newBuilder().setValue(userId).build());git 
         getBlockingStub().getChannel().shutdown();
     }
 
