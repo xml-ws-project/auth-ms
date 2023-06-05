@@ -1,12 +1,11 @@
 package com.vima.auth.model;
 
 import com.vima.auth.model.enums.Role;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 
 @Data
