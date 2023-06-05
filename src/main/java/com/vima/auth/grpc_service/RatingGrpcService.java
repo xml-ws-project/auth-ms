@@ -35,4 +35,5 @@ public class RatingGrpcService extends RatingServiceGrpc.RatingServiceImplBase {
         responseObserver.onNext(TextMessage.newBuilder().setValue(result ? "Rating edited." : "Error!").build());
         responseObserver.onCompleted();
     }
+
 }
