@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Random;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -52,7 +53,10 @@ public class RatingService {
 
     private void calculateWhenNotZero(Long hostId){
         var host = userService.findById(hostId);
-        host.setAvgRating(ratingRepository.findAvg(hostId));
+
+        var avg = ratingRepository.findAvg(hostId);
+        host.setAvgRating(avg);
+
         userService.save(host);
     }
 
@@ -60,8 +64,19 @@ public class RatingService {
         var rating = ratingRepository.findById(id).get();
         if(rating == null) return false;
         ratingRepository.delete(rating);
-        calculateWhenNotZero(rating.getHostId());
+        executeDelete(rating.getHostId());
         return true;
+    }
+    private void executeDelete(Long hostId){
+        var numOfRates = ratingRepository.findNumberOfHostRatings(hostId);
+        var host = userService.findById(hostId);
+        if(numOfRates == 0){
+            host.setAvgRating(0);
+            userService.save(host);
+        }
+        else {
+            calculateWhenNotZero(host.getId());
+        }
     }
 
     public boolean edit(Long id, int newValue){
