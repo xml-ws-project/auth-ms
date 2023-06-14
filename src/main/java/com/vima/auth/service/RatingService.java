@@ -53,6 +53,7 @@ public class RatingService {
 
     private void calculateWhenNotZero(Long hostId){
         var host = userService.findById(hostId);
+
         var avg = ratingRepository.findAvg(hostId);
         host.setAvgRating(avg);
 

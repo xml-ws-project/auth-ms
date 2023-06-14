@@ -4,7 +4,6 @@ import com.vima.auth.converter.LocalDateConverter;
 import com.vima.auth.model.Rating;
 import com.vima.gateway.RatingServiceOuterClass;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.stereotype.Component;
 
 @Component
