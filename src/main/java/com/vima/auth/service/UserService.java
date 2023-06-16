@@ -10,7 +10,6 @@ import communication.EditNotificationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,13 +22,11 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    private final PasswordEncoder passwordEncoder;
     public List<User> findAll() {
         return userRepository.findAll();
     };
     public User registerUser(User user){
         user.setPenalties(0);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
     public User changeUserInfo(User newUserInfo){
