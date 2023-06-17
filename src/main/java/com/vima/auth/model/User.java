@@ -1,12 +1,11 @@
 package com.vima.auth.model;
 
 import com.vima.auth.model.enums.Role;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 
 @Data
@@ -42,5 +41,8 @@ public class User {
     @JoinColumn(name = "notificationOptions_id", referencedColumnName = "id")
     NotificationOptions notificationOptions;
     //Ovde treba promeniti da je role tipa Role ali me zeza MySql vec satima i ne radi ne znam zasto
-
+    @Column(columnDefinition = "double default 0")
+    private double avgRating = 0;
+    @Column(columnDefinition = "boolean default false")
+    private boolean distinguished = false;
 }

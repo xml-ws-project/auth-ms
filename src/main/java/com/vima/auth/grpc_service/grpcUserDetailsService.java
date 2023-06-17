@@ -1,10 +1,15 @@
-package com.vima.auth.grpcService;
+package com.vima.auth.grpc_service;
 
 import com.vima.auth.mapper.NotificationMapper;
+import com.vima.auth.dto.gRPCObjectRec;
 import com.vima.auth.mapper.UserMapper;
 import com.vima.auth.model.User;
 import com.vima.auth.service.UserService;
+import com.vima.gateway.RecommendationServiceGrpc;
+import com.vima.gateway.Uuid;
 import communication.*;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
@@ -50,12 +55,17 @@ public class grpcUserDetailsService extends userDetailsServiceGrpc.userDetailsSe
     }
 
     @Override
-    public void register(communication.RegistrationRequest request,
-                         io.grpc.stub.StreamObserver<communication.RegistrationResponse> responseObserver) {
+    public void register(RegistrationRequest request, StreamObserver<RegistrationResponse> responseObserver) {
         User user = userService.registerUser(UserMapper.covertRegisterRequestToEntity(request));
         RegistrationResponse response = UserMapper.convertUserToRegistrationResponse(user);
+        createUserNode(user.getId().toString());
         responseObserver.onNext(response);
         responseObserver.onCompleted();
+    }
+
+    private void createUserNode(String userId){
+        getBlockingStub().getStub().createUserNode(Uuid.newBuilder().setValue(userId).build());
+        getBlockingStub().getChannel().shutdown();
     }
 
     @Override
@@ -96,6 +106,16 @@ public class grpcUserDetailsService extends userDetailsServiceGrpc.userDetailsSe
                 .build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
+    }
+
+    private gRPCObjectRec getBlockingStub() {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 9095)
+                .usePlaintext()
+                .build();
+        return gRPCObjectRec.builder()
+                .channel(channel)
+                .stub(RecommendationServiceGrpc.newBlockingStub(channel))
+                .build();
     }
 
 }
