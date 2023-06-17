@@ -15,4 +15,7 @@ public interface RatingRepository extends JpaRepository<Rating, Long> {
 
     @Query(value = "SELECT sum(r.value)/count(r.id) FROM rating r WHERE r.host_id = ?1", nativeQuery = true)
     double findAvg(Long hostId);
+
+    List<Rating> findAllByHostId(Long hostId);
+
 }

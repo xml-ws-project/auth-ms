@@ -35,4 +35,14 @@ public class RatingGrpcService extends RatingServiceGrpc.RatingServiceImplBase {
         responseObserver.onNext(TextMessage.newBuilder().setValue(result ? "Rating edited." : "Error!").build());
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void findAllByHostId(RatingServiceOuterClass.LONG request, StreamObserver<RatingServiceOuterClass.RatingList> responseObserver){
+        var ratingList = RatingMapper.convertEntitytoDtoList(ratingService.findAllByHostId(request.getValue()));
+        RatingServiceOuterClass.RatingList responseList = RatingServiceOuterClass.RatingList.newBuilder()
+                .addAllResponse(ratingList)
+                .build();
+        responseObserver.onNext(responseList);
+        responseObserver.onCompleted();
+    }
 }

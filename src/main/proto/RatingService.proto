@@ -27,8 +27,21 @@ message LONG{
     uint64 value = 1;
 }
 
+message RatingByHostId{
+    uint64 id = 1;
+    int32 value = 2;
+    string username = 3;
+    uint64 guestId = 4;
+    google.protobuf.Timestamp date = 5;
+}
+
+message RatingList{
+    repeated RatingByHostId response = 1;
+}
+
 service RatingService{
     rpc create(RatingRequest) returns (RatingResponse);
     rpc delete(LONG) returns (TextMessage);
     rpc edit(EditRatingRequest) returns (TextMessage);
+    rpc findAllByHostId(LONG) returns (RatingList);
 }

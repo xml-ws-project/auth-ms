@@ -1,5 +1,6 @@
 package com.vima.auth.service;
 
+import com.vima.auth.dto.RateInfoDto;
 import com.vima.auth.model.Rating;
 import com.vima.auth.model.User;
 import com.vima.auth.repository.RatingRepository;
@@ -7,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -93,4 +96,14 @@ public class RatingService {
         return true;
     }
 
+    public List<RateInfoDto> findAllByHostId(Long id){
+        List<Rating> ratings = ratingRepository.findAllByHostId(id);
+        List<RateInfoDto> dtoList = new ArrayList<>();
+        for (Rating rating : ratings ) {
+            User guest = userService.findById(rating.getGuestId());
+            RateInfoDto dto = new RateInfoDto(rating, guest.getUsername());
+            dtoList.add(dto);
+        }
+        return dtoList;
+    }
 }
