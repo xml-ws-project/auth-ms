@@ -4,6 +4,8 @@ option java_multiple_files = true;
 package communication;
 import "model.proto";
 
+message Empty {}
+
 message email{
   string value = 1;
 }
@@ -28,4 +30,6 @@ service userDetailsService {
   rpc findNotificationOptionsByUserId(UserId) returns (NotificationOptionsResponse);
 
   rpc editNotificationOptions(EditNotificationRequest) returns (NotificationOptionsResponse);
+
+  rpc checkIfHostIsDistinguished(CheckRequest) returns (Empty);
 }

@@ -1,3 +1,35 @@
+2023-06-19 02:13:46.471  INFO [auth-ms,,] 11836 --- [main] com.vima.auth.AuthApplication            : Starting AuthApplication using Java 18.0.2 on Vuk with PID 11836 (C:\Users\One\Desktop\F\4.godina\2. semestar\XML i web servisi\Projekat\auth-ms\target\classes started by Vuk in C:\Users\One\Desktop\F\4.godina\2. semestar\XML i web servisi\Projekat\auth-ms)
+2023-06-19 02:13:46.482  INFO [auth-ms,,] 11836 --- [main] com.vima.auth.AuthApplication            : No active profile set, falling back to 1 default profile: "default"
+2023-06-19 02:13:48.685  INFO [auth-ms,,] 11836 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-06-19 02:13:48.943  INFO [auth-ms,,] 11836 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 248 ms. Found 2 JPA repository interfaces.
+2023-06-19 02:13:49.359  INFO [auth-ms,,] 11836 --- [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=f931f1ef-de92-3e1a-959e-371cdebd1c72
+2023-06-19 02:13:50.229  INFO [auth-ms,,] 11836 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8082 (http)
+2023-06-19 02:13:50.239  INFO [auth-ms,,] 11836 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-06-19 02:13:50.239  INFO [auth-ms,,] 11836 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.60]
+2023-06-19 02:13:50.649  INFO [auth-ms,,] 11836 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-06-19 02:13:50.649  INFO [auth-ms,,] 11836 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4047 ms
+2023-06-19 02:13:51.260  WARN [auth-ms,,] 11836 --- [main] o.s.c.s.a.z.ZipkinAutoConfiguration      : Check result of the [RestTemplateSender{http://localhost:9411/api/v2/spans}] contains an error [CheckResult{ok=false, error=org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:9411/api/v2/spans": Connection refused: no further information; nested exception is java.net.ConnectException: Connection refused: no further information}]
+2023-06-19 02:13:51.652  INFO [auth-ms,,] 11836 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-06-19 02:13:51.705  INFO [auth-ms,,] 11836 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.7.Final
+2023-06-19 02:13:51.885  INFO [auth-ms,,] 11836 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-06-19 02:13:52.028  INFO [auth-ms,,] 11836 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-06-19 02:13:52.384  INFO [auth-ms,,] 11836 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-06-19 02:13:52.402  INFO [auth-ms,,] 11836 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-06-19 02:13:53.303  INFO [auth-ms,,] 11836 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-06-19 02:13:53.310  INFO [auth-ms,,] 11836 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-06-19 02:13:54.101  WARN [auth-ms,,] 11836 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-06-19 02:13:55.668  INFO [auth-ms,,] 11836 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2023-06-19 02:13:55.745  INFO [auth-ms,,] 11836 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8082 (http) with context path ''
+2023-06-19 02:13:55.961  INFO [auth-ms,,] 11836 --- [main] n.d.b.g.s.s.AbstractGrpcServerFactory    : Registered gRPC service: com.vima.gateway.RatingService, bean: ratingGrpcService, class: com.vima.auth.grpc_service.RatingGrpcService
+2023-06-19 02:13:55.965  INFO [auth-ms,,] 11836 --- [main] n.d.b.g.s.s.AbstractGrpcServerFactory    : Registered gRPC service: communication.userDetailsService, bean: grpcUserDetailsService, class: com.vima.auth.grpc_service.grpcUserDetailsService
+2023-06-19 02:13:56.105  INFO [auth-ms,,] 11836 --- [main] n.d.b.g.s.s.GrpcServerLifecycle          : gRPC Server started, listening on address: *, port: 9092
+2023-06-19 02:13:56.127  INFO [auth-ms,,] 11836 --- [main] com.vima.auth.AuthApplication            : Started AuthApplication in 11.171 seconds (JVM running for 12.527)
+2023-06-19 02:13:58.391  INFO [auth-ms,,] 11836 --- [Thread-2] o.s.c.s.a.z.ZipkinAutoConfiguration      : Flushing remaining spans on shutdown
+2023-06-19 02:13:58.395  INFO [auth-ms,,] 11836 --- [SpringApplicationShutdownHook] n.d.b.g.s.s.GrpcServerLifecycle          : gRPC server shutdown.
+2023-06-19 02:13:58.423  INFO [auth-ms,,] 11836 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-06-19 02:13:58.427  INFO [auth-ms,,] 11836 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-06-19 02:13:58.443  INFO [auth-ms,,] 11836 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+=======
 2023-06-17 01:57:36.633  INFO [auth-ms,,] 22104 --- [main] com.vima.auth.AuthApplication            : Starting AuthApplication using Java 18.0.2 on Vuk with PID 22104 (C:\Users\One\Desktop\F\4.godina\2. semestar\XML i web servisi\Projekat\auth-ms\target\classes started by Vuk in C:\Users\One\Desktop\F\4.godina\2. semestar\XML i web servisi\Projekat\auth-ms)
 2023-06-17 01:57:36.635  INFO [auth-ms,,] 22104 --- [main] com.vima.auth.AuthApplication            : No active profile set, falling back to 1 default profile: "default"
 2023-06-17 01:57:37.543  INFO [auth-ms,,] 22104 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
@@ -1676,4 +1708,3 @@ Caused by: java.net.ConnectException: Connection refused: no further information
 	at org.springframework.http.client.AbstractClientHttpRequest.execute(AbstractClientHttpRequest.java:66) ~[spring-web-5.3.18.jar:5.3.18]
 	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:776) ~[spring-web-5.3.18.jar:5.3.18]
 	... 9 common frames omitted
-

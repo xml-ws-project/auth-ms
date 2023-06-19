@@ -1,14 +1,20 @@
 package com.vima.auth.service;
 
 import com.vima.auth.dto.EditUserHttpRequest;
+import com.vima.auth.dto.gRPCReservationObject;
 import com.vima.auth.mapper.NotificationMapper;
 import com.vima.auth.model.NotificationOptions;
 import com.vima.auth.model.User;
 import com.vima.auth.repository.UserRepository;
+import com.vima.gateway.HostDistinguishedRequest;
+import com.vima.gateway.ReservationServiceGrpc;
 
 import communication.EditNotificationRequest;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +27,8 @@ import javax.persistence.EntityNotFoundException;
 public class UserService {
     @Autowired
     UserRepository userRepository;
+    @Value("${channel.address.reservation-ms}")
+    private String channelReservationAddress;
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -85,12 +93,46 @@ public class UserService {
         return user;
     }
 
+    public void checkIfHostIsDistinguished(Long hostId) {
+        var hostOpt = userRepository.findById(hostId);
+        if (hostOpt.isEmpty()) {
+            return;
+        }
+        var host = hostOpt.get();
+        host.setDistinguished(hasSatisfyingAvgRating(host) && retrieveCriteriaAnswer(host));
+        userRepository.save(host);
+    }
+
+    private boolean retrieveCriteriaAnswer(User host) {
+        var reservationBlockingStub = getBlockingReservationStub();
+        var isAcceptingCriteria = reservationBlockingStub
+            .getStub()
+            .isHostDistinguished(HostDistinguishedRequest.newBuilder().setHostId(host.getId()).build());
+        host.setDistinguished(hasSatisfyingAvgRating(host));
+        reservationBlockingStub.getChannel().shutdown();
+        return isAcceptingCriteria.getAnswer();
+    }
+
+    private boolean hasSatisfyingAvgRating(User host) {
+        return host.getAvgRating() > 4.7;
+    }
+
     public void save(User user){
         userRepository.save(user);
+    }
+
+    private gRPCReservationObject getBlockingReservationStub() {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(channelReservationAddress, 9094)
+            .usePlaintext()
+            .build();
+        return gRPCReservationObject.builder()
+            .channel(channel)
+            .stub(com.vima.gateway.ReservationServiceGrpc.newBlockingStub(channel))
+            .build();
     }
 
     public User loadByEmail(String email){
         return userRepository.findByEmail(email);
     }
-
+  
 }
