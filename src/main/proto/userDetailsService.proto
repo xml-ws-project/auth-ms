@@ -6,6 +6,14 @@ import "model.proto";
 
 message Empty {}
 
+message email{
+  string value = 1;
+}
+
+message hostId{
+  string value = 1;
+}
+
 service userDetailsService {
   rpc getUserDetails(UserDetailsRequest) returns (UserDetailsResponse);
 
@@ -14,6 +22,8 @@ service userDetailsService {
   rpc edit(EditUserRequest) returns (EditUserResponse);
 
   rpc delete(DeleteUserRequest) returns (DeleteUserResponse);
+
+  rpc getByEmail(email) returns (hostId);
 
   rpc findById(FindUserRequest) returns (UserDetailsResponse);
 

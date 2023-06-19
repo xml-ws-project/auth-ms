@@ -130,4 +130,9 @@ public class UserService {
             .stub(com.vima.gateway.ReservationServiceGrpc.newBlockingStub(channel))
             .build();
     }
+
+    public User loadByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
+  
 }
