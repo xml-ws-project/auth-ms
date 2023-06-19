@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "user" , schema = "public")
 public class User {
     @Id
-    @Column(name = "id", unique = true, nullable = false)
+    @Column(name = "id", unique = true, nullable = false, updatable = false)
     private Long id;
     @Column(name = "location", nullable = false)
     private String location;
@@ -37,6 +37,10 @@ public class User {
     @Column(columnDefinition = "ENUM('GUEST','HOST')", name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "notificationOptions_id", referencedColumnName = "id")
+    NotificationOptions notificationOptions;
+    //Ovde treba promeniti da je role tipa Role ali me zeza MySql vec satima i ne radi ne znam zasto
     @Column(columnDefinition = "double default 0")
     private double avgRating = 0;
     @Column(columnDefinition = "boolean default false")

@@ -18,6 +18,31 @@ message UserDetailsResponse {
   string password = 3;
   Role role = 4;
   uint32 penalties = 5;
+  NotificationOptionsResponse notificationOptions = 6;
+}
+
+message NotificationOptionsResponse {
+  uint64 id = 1;
+  bool reservationRequest = 2;
+  bool reservationCancellation = 3;
+  bool profileRating = 4;
+  bool accommodationRating = 5;
+  bool distinguishedHostStatus = 6;
+  bool hostsReservationAnswer = 7;
+}
+
+message UserId {
+  uint64 id = 1;
+}
+
+message EditNotificationRequest {
+  uint64 id = 1;
+  bool reservationRequest = 2;
+  bool reservationCancellation = 3;
+  bool profileRating = 4;
+  bool accommodationRating = 5;
+  bool distinguishedHostStatus = 6;
+  bool hostsReservationAnswer = 7;
 }
 
 message RegistrationRequest {
@@ -55,4 +80,8 @@ message DeleteUserRequest{
 
 message DeleteUserResponse{
   string message = 1;
+}
+
+message FindUserRequest {
+  string id = 1;
 }

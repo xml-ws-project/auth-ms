@@ -22,4 +22,10 @@ service userDetailsService {
   rpc delete(DeleteUserRequest) returns (DeleteUserResponse);
 
   rpc getByEmail(email) returns (hostId);
+
+  rpc findById(FindUserRequest) returns (UserDetailsResponse);
+
+  rpc findNotificationOptionsByUserId(UserId) returns (NotificationOptionsResponse);
+
+  rpc editNotificationOptions(EditNotificationRequest) returns (NotificationOptionsResponse);
 }
