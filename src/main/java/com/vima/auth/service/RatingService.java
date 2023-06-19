@@ -3,6 +3,8 @@ package com.vima.auth.service;
 import com.vima.auth.model.Rating;
 import com.vima.auth.model.User;
 import com.vima.auth.repository.RatingRepository;
+import com.vima.auth.util.email.EmailService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,17 +12,36 @@ import java.time.LocalDate;
 import java.util.Random;
 import java.util.UUID;
 
+import javax.transaction.Transactional;
+
 @Service
 @RequiredArgsConstructor
 public class RatingService {
 
     private final RatingRepository ratingRepository;
     private final UserService userService;
+    private final EmailService emailService;
 
+    @Transactional
     public Rating create(int value, Long hostId, Long guestId){
        var newRating = executeRating(value, hostId, guestId);
        calculateHostRating(value, hostId);
+       userService.checkIfHostIsDistinguished(hostId);
+       notifyHost(newRating);
        return newRating;
+    }
+
+    private void notifyHost(Rating rating) {
+        User host = userService.findById(rating.getHostId());
+        User guest = userService.findById(rating.getGuestId());
+        if (host.getNotificationOptions().isProfileRating()) {
+            String subject = "Profile rating notification";
+            String body = "Dear " + host.getUsername() + ", " +
+                "guest " + guest.getUsername() + " rated your host profile with a rating " + rating.getValue() + "." +
+                "Best regards," +
+                "Admin";
+            emailService.sendSimpleMail(host.getUsername(), subject, body);
+        }
     }
 
     private Rating executeRating(int value, Long hostId, Long guestId){
