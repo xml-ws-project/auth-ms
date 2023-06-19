@@ -79,4 +79,8 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public User loadByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
+
 }

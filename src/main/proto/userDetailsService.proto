@@ -4,6 +4,14 @@ option java_multiple_files = true;
 package communication;
 import "model.proto";
 
+message email{
+  string value = 1;
+}
+
+message hostId{
+  string value = 1;
+}
+
 service userDetailsService {
   rpc getUserDetails(UserDetailsRequest) returns (UserDetailsResponse);
 
@@ -12,4 +20,6 @@ service userDetailsService {
   rpc edit(EditUserRequest) returns (EditUserResponse);
 
   rpc delete(DeleteUserRequest) returns (DeleteUserResponse);
+
+  rpc getByEmail(email) returns (hostId);
 }

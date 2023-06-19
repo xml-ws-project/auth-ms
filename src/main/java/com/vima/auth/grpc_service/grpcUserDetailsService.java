@@ -94,4 +94,14 @@ public class grpcUserDetailsService extends userDetailsServiceGrpc.userDetailsSe
                 .build();
     }
 
+    @Override
+    public void getByEmail(communication.email email, StreamObserver<hostId> responseObserver){
+        User user = userService.loadUserByUsername(email.getValue());
+        hostId response = hostId.newBuilder()
+                .setValue(user.getId().toString())
+                .build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
 }
