@@ -2,6 +2,7 @@ package com.vima.auth.grpc_service;
 
 import com.vima.auth.mapper.RatingMapper;
 import com.vima.auth.service.RatingService;
+import com.vima.gateway.AuthServiceOuterClass;
 import com.vima.gateway.RatingServiceGrpc;
 import com.vima.gateway.RatingServiceOuterClass;
 import com.vima.gateway.TextMessage;
@@ -45,4 +46,13 @@ public class RatingGrpcService extends RatingServiceGrpc.RatingServiceImplBase {
         responseObserver.onNext(responseList);
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void findAvgRate(RatingServiceOuterClass.LONG request, StreamObserver<RatingServiceOuterClass.AvgRate> responseObserver){
+        var result = ratingService.getAvgRate(request.getValue());
+        responseObserver.onNext(RatingMapper.convertAvgRateToAvgRateResponse(result));
+        responseObserver.onCompleted();
+    }
+
+
 }

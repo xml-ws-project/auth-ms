@@ -39,9 +39,16 @@ message RatingList{
     repeated RatingByHostId response = 1;
 }
 
+message AvgRate{
+    double avgRate = 1;
+    string firstName = 2;
+    string lastName = 3;
+}
+
 service RatingService{
     rpc create(RatingRequest) returns (RatingResponse);
     rpc delete(LONG) returns (TextMessage);
     rpc edit(EditRatingRequest) returns (TextMessage);
     rpc findAllByHostId(LONG) returns (RatingList);
+    rpc findAvgRate(LONG) returns (AvgRate);
 }

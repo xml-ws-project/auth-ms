@@ -1,6 +1,7 @@
 package com.vima.auth.mapper;
 
 import com.vima.auth.converter.LocalDateConverter;
+import com.vima.auth.dto.AvgRateDto;
 import com.vima.auth.dto.RateInfoDto;
 import com.vima.auth.model.Rating;
 import com.vima.gateway.RatingServiceOuterClass;
@@ -45,5 +46,14 @@ public class RatingMapper {
                 responseList.add(ratingRes);
             });
             return responseList;
+    }
+
+    public static RatingServiceOuterClass.AvgRate convertAvgRateToAvgRateResponse(AvgRateDto dto){
+        var response = RatingServiceOuterClass.AvgRate.newBuilder()
+                .setAvgRate(dto.getAvgRate())
+                .setFirstName(dto.getFirstName())
+                .setLastName(dto.getLastName())
+                .build();
+        return response;
     }
 }

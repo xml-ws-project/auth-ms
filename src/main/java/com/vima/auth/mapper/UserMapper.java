@@ -2,6 +2,7 @@ package com.vima.auth.mapper;
 
 import com.vima.auth.dto.EditUserHttpRequest;
 import com.vima.auth.model.User;
+import com.vima.gateway.AuthServiceOuterClass;
 import communication.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -33,7 +34,7 @@ public class UserMapper {
     public static User covertRegisterRequestToEntity(final RegistrationRequest request) {
         return User.builder()
                 .firstName(request.getFirstName())
-                .id(Math.abs(new Random().nextLong()))
+                .id(Math.abs(generateRandomLongWithMaxDigits(16)))
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .username(request.getUsername())
@@ -69,6 +70,25 @@ public class UserMapper {
                 .username(request.getUsername())
                 .build();
 
+    }
+
+    public static AuthServiceOuterClass.Username convertEntityToUsernameResponse(User user){
+        var response = AuthServiceOuterClass.Username.newBuilder()
+                .setUsername(user.getUsername())
+                .build();
+        return response;
+    }
+
+    public static long generateRandomLongWithMaxDigits(int maxDigits) {
+        Random random = new Random();
+        long max = (long) Math.pow(10, maxDigits) - 1;
+
+        long randomLong;
+        do {
+            randomLong = Math.abs(random.nextLong());
+        } while (randomLong > max);
+
+        return randomLong;
     }
 
 }

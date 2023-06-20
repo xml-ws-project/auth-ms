@@ -1,0 +1,17 @@
+syntax = "proto3";
+package com.vima.gateway;
+
+import "google/protobuf/timestamp.proto";
+import "Shared.proto";
+
+message GuestId{
+  uint64 id = 1;
+}
+
+message Username{
+  string username = 1;
+}
+
+service AuthService{
+  rpc getUsername(GuestId) returns (Username);
+}

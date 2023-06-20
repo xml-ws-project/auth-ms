@@ -1,5 +1,6 @@
 package com.vima.auth.service;
 
+import com.vima.auth.dto.AvgRateDto;
 import com.vima.auth.dto.RateInfoDto;
 import com.vima.auth.model.Rating;
 import com.vima.auth.model.User;
@@ -91,6 +92,7 @@ public class RatingService {
 
     public boolean executeEdit(Rating rating, int newValue){
         rating.setValue(newValue);
+        rating.setDate(LocalDate.now());
         ratingRepository.save(rating);
         calculateWhenNotZero(rating.getHostId());
         return true;
@@ -105,5 +107,12 @@ public class RatingService {
             dtoList.add(dto);
         }
         return dtoList;
+    }
+
+    public AvgRateDto getAvgRate(Long id){
+        User host = userService.findById(id);
+        AvgRateDto avgRate = new AvgRateDto(host.getAvgRating(), host.getFirstName(), host.getLastName());
+        return avgRate;
+
     }
 }

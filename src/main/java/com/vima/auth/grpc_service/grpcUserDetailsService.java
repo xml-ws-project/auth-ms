@@ -4,6 +4,7 @@ import com.vima.auth.dto.gRPCObjectRec;
 import com.vima.auth.mapper.UserMapper;
 import com.vima.auth.model.User;
 import com.vima.auth.service.UserService;
+import com.vima.gateway.AuthServiceOuterClass;
 import com.vima.gateway.RecommendationServiceGrpc;
 import com.vima.gateway.Uuid;
 import communication.*;
@@ -83,6 +84,8 @@ public class grpcUserDetailsService extends userDetailsServiceGrpc.userDetailsSe
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
+
+
 
     private gRPCObjectRec getBlockingStub() {
         ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 9095)
