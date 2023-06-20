@@ -19,6 +19,7 @@ import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -131,7 +132,7 @@ public class UserService {
             .build();
     }
 
-    public User loadByEmail(String email){
+    public Optional<User> loadByEmail(String email){
         return userRepository.findByEmail(email);
     }
   

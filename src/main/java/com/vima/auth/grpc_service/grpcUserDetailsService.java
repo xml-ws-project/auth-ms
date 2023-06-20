@@ -124,12 +124,25 @@ public class grpcUserDetailsService extends userDetailsServiceGrpc.userDetailsSe
 
     @Override
     public void getByEmail(communication.email email, StreamObserver<hostId> responseObserver){
-        User user = userService.loadUserByUsername(email.getValue());
-        hostId response = hostId.newBuilder()
-                .setValue(user.getId().toString())
+        var user = userService.loadByEmail(email.getValue());
+        hostId response;
+        if (user.isPresent()) {
+            response = hostId.newBuilder()
+                .setValue(user.get().getId().toString())
                 .build();
+        } else {
+            response = hostId.newBuilder()
+                .build();
+        }
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
 
+    @Override
+    public void checkIfHostIsDistinguished(CheckRequest request, StreamObserver<Empty> responseObserver) {
+        userService.checkIfHostIsDistinguished(Long.valueOf(request.getHostId()));
+        Empty empty = Empty.newBuilder().build();
+        responseObserver.onNext(empty);
+        responseObserver.onCompleted();
+    }
 }
